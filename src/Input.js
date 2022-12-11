@@ -1,38 +1,62 @@
 import Table from "./Table";
 import data from './data.json'
-import { useState } from "react";
+import Handler from "./Handler";
+import { useState, useEffect } from "react";
 
 
 const Input = () => {
     const [objData, setObjData] = useState(data);
+    const [isValid, setIsValid] = useState(true);
+    const [error, setError] = useState('');
+    const [keys, setKeys] = useState([]);
     const mime = ["application/json"]
     let file;
+
+    useEffect(() => {
+        const headKeys = () => {
+            try {
+                const keys = Object.keys(data[0]);
+                setKeys(keys);
+                setIsValid(true);
+            } catch (err) {
+                setIsValid(false);
+                setError(`Default JSON File not Found : ${err.message}`);
+            }
+        }
+        headKeys();
+    }, [])
 
     const fileUpload = (e) => {
         file = e.target.files[0];
         let fileType = file.type;
         if (mime.includes(fileType)) {
             let reader = new FileReader();
-            reader.onload = onReaderLoad;   
+            reader.onload = onReaderLoad;
             reader.readAsText(e.target.files[0]);
         }
         else {
-            alert("Invalid");
+            alert("Invalid File Type");
+            e.target.value = null;
         }
     }
 
-    function onReaderLoad(e) {
-        const objType = JSON.parse(e.target.result);
-        setObjData(objType);
-    }
-
-    function getHeader() {
-        return Object.keys(objData[0]);
+    const onReaderLoad = (e) => {
+        try {
+            const objParsed = JSON.parse(e.target.result);
+            const keys = Object.keys(objParsed[0]);
+            if((keys.length || objParsed.length) > 100) throw Error("JSON File is too big");
+            setKeys(keys);
+            setObjData(objParsed);
+            setIsValid(true);
+        } catch (err) {
+            setIsValid(false);
+            setError(`Error : ${err.message}`);
+        }
     }
 
     return (
         <div className="flex justify-center items-center flex-col">
-            <div className="flex justify-center items-center mt-2">
+            <div className="mt-4">
                 <label>
                     <input
                         type="file"
@@ -47,7 +71,22 @@ const Input = () => {
                     />
                 </label>
             </div>
-            <Table keys={getHeader()} data={objData} />
+
+            <div>
+                {isValid ?
+                    (
+                        <>
+                            <Table keys={keys} data={objData} />
+                        </>
+                    )
+                    : (
+                        <>
+                            <Handler error={error} />
+                        </>
+                    )
+                }
+            </div>
+
         </div>
     );
 }

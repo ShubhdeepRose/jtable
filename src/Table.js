@@ -1,4 +1,4 @@
-import React from 'react'
+import shortid from "shortid"
 
 const Table = ({ keys, data }) => {
     return (
@@ -18,7 +18,7 @@ const Table = ({ keys, data }) => {
                         data.map((row, index) => {
                             return <tr className="border-b-1 border-gray-200 even:bg-[#F8F6FF] last:border-[#6c7ae0] last:border-b-4 hover:text-[#6c7ae0] text-gray-500" key={index}>
                                 {keys.map((key) => {
-                                    return <td className="pt-3 pb-3 pl-4 pr-4" key={row[key]}>{row[key]}</td>
+                                    return <td className="pt-3 pb-3 pl-4 pr-4" key={shortid()}>{row[key]}</td>
                                 })}
                             </tr>
                         })
