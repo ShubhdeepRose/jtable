@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/jtable/static/css/main.92532bf2.css",
+    "main.js": "/jtable/static/js/main.c1350c4f.js",
+    "index.html": "/jtable/index.html",
+    "main.92532bf2.css.map": "/jtable/static/css/main.92532bf2.css.map",
+    "main.c1350c4f.js.map": "/jtable/static/js/main.c1350c4f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.92532bf2.css",
+    "static/js/main.c1350c4f.js"
+  ]
+}
