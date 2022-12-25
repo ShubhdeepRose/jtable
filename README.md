@@ -46,6 +46,7 @@ This is my first step in the journey towards a career in full-stack web developm
 * Tailwind CSS
 * React JS
 * React Hooks
+* React Error Handling & Logging
 * Setting up Tailwind CSS in a Create React App project
 * How to Publish the React application on GitHub Pages
 
